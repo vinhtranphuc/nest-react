@@ -36,3 +36,6 @@ lerna-debug.log*
 
 # env
 .env
+
+# cache
+.pnpm-store

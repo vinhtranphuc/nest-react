@@ -1,8 +1,10 @@
-import { Controller, Post, UseInterceptors, UploadedFile, UploadedFiles } from '@nestjs/common';
+import { Controller, Post, UseInterceptors, UploadedFile, UploadedFiles, Param, Get, Res, Header } from '@nestjs/common';
 import { FileInterceptor, FileFieldsInterceptor } from '@nestjs/platform-express'
 import { FilesService } from './files.service';
 import { BufferedFile } from 'modules/config/minio-client/dto/file.dto';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import path from 'path';
+import * as fs from 'fs';
 
 @ApiTags('v1/common/files')
 @Controller({
@@ -19,22 +21,20 @@ export class FilesController {
     @ApiConsumes('multipart/form-data')
     @ApiBody({
         schema: {
-        type: 'object',
-        properties: {
-            // comment: { type: 'string' },
-            // outletId: { type: 'integer' },
-            image: {
-                type: 'string',
-                format: 'binary',
+            type: 'object',
+            properties: {
+                file: {
+                    type: 'string',
+                    format: 'binary',
+                },
             },
         },
-        },
     })
-    @UseInterceptors(FileInterceptor('image'))
+    @UseInterceptors(FileInterceptor('file'))
     async uploadSingle(
-        @UploadedFile() image: BufferedFile
+        @UploadedFile() file: BufferedFile
     ) {
-        return await this.fileService.uploadSingle(image)
+        return await this.fileService.uploadSingle(file)
     }
 
     @Post('upload/many')
@@ -45,6 +45,15 @@ export class FilesController {
     async uploadMany(
         @UploadedFiles() files: BufferedFile,
     ) {
-        return this.fileService.uploadMany(files)
+        return await this.fileService.uploadMany(files)
+    }
+
+    @Get(':fileId')
+    async download(@Param('fileId') fileId: string, @Res({passthrough: true}) response) {
+        let storedFile = await this.fileService.download(fileId);
+        Object.entries(storedFile?.metaData).forEach(([header, value]) => {
+            response.setHeader(header, value);
+        });
+        response.write(storedFile.file);
     }
 }

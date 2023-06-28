@@ -63,6 +63,7 @@
 		"socket.io": "^4.6.1",
 		"sql-formatter": "^4.0.2",
 		"typeorm": "^0.3.16",
+		"utf8": "^3.0.0",
 		"uuid": "^9.0.0",
 		"win-node-env": "^0.6.1"
 	},
