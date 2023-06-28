@@ -14,9 +14,11 @@ import { UpdateUserDto } from '../../../common/dtos';
     version: '1'
 })
 export class UserController {
+
     constructor(
         private readonly userService: UserService,
     ) {}
+
     @Status(AccountStatus.VERIFIED)
     @UseGuards(JwtAuthGuard, VerifiedGuard)
     @Patch('update')

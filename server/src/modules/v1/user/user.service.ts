@@ -9,20 +9,29 @@ import { Repository } from 'typeorm'
 
 @Injectable()
 export class UserService {
+
     constructor(
         @InjectRepository(User) 
         private readonly userRepository: Repository<User>
     ) {}
 
 
+    /**
+     * 
+     * @param data create user
+     * @returns 
+     */
     public async create(data: Partial<User>) {
         const user = this.userRepository.create(data)
-
         await this.userRepository.save(user)
-        
         return user
     }
 
+    /**
+     * update user by id
+     * @param userId
+     * @param values 
+     */
     public async update(userId: string, values: QueryDeepPartialEntity<User>) {
         this.userRepository
             .createQueryBuilder()
@@ -32,6 +41,12 @@ export class UserService {
             .execute()
     }
 
+    /**
+     * update user profile
+     * @param userId 
+     * @param values 
+     * @returns 
+     */
     public async updateProfile(userId: string, values: QueryDeepPartialEntity<User>) {
         try {
             await this.userRepository
@@ -50,7 +65,6 @@ export class UserService {
                 if(err.detail.includes('email')) {
                     throw new UniqueViolation('email')
                 }
-
                 if(err.detail.includes('nick_name' || 'nick' || 'nickName')) {
                     throw new UniqueViolation('displayName')
                 }
@@ -59,12 +73,22 @@ export class UserService {
         }
     }
 
-
+    /**
+     * get user by id
+     * @param field
+     * @param value 
+     * @returns 
+     */
     public async getUserByField(field: string, value: string | number) {
         const user = await this.userRepository.findOne({ where: { [field]: value } })
         return user
     }
 
+    /**
+     * continue with provider
+     * @param req
+     * @returns 
+     */
     public async continueWithProvider(req: any) {
         let user: User
 

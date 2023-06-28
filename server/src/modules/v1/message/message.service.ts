@@ -48,20 +48,18 @@ export class MessageService {
             return query
         } catch (err) {
             console.error(err)
+            throw err
         }
     }
 
     public async create(user: User | null, type: 'room' | 'conversation', id: string, text: string) {
         try {
             let chat: any
-            
-
             if(type === 'room') {
                 chat = await this.roomService.getRoom(id, { relationIds: false })
             } else if(type === 'conversation') {
                 chat = await this.conversationService.getConversation(id)
             }
-
             if(user) {
                 let message: Message
                 if(type === 'room') {
@@ -107,6 +105,7 @@ export class MessageService {
             //     return message.raw
         } catch (err) {
             console.error(err)
+            throw err
         }
     }
 

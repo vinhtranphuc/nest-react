@@ -48,12 +48,10 @@ export class ConversationService {
 
     public async createConversation(creator: User, recipient: User) {
         try {
-            // const conversation = await this.conversationRepository.createConversation(creator, recipent)
             const conversation = new Conversation({
                 creator,
                 recipient
             })
-
             await this.conversationRepository.save(conversation)
             return conversation
         } catch (err) {
@@ -99,7 +97,6 @@ export class ConversationService {
             if(!existingConversation) {
                 return null                
             }
-            
             return existingConversation
         } catch (err) {
             throw err
