@@ -15,6 +15,3 @@ export interface StoredFile {
     file?: Buffer | string;
     originalname: string;
 }
-// export type AppMimeType =
-//     | 'image/png'
-//     | 'image/jpeg';
