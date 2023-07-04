@@ -38,7 +38,6 @@ export class RoomService {
                 roomId,
                 code
             })
-    
             return this.invitationRepository.save(invitation)
         }
 
@@ -378,14 +377,10 @@ export class RoomService {
                     message: 'User removed from moderators'
                 }
             }
-
             return {
                 success: false,
                 message: 'User not removed from moderators'
             }
         }
-        
-
-        
     }
 }

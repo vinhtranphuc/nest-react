@@ -79,7 +79,6 @@ export class RoomController {
         return this.roomService.createRoom(data, user)
     }
 
-
     @UseGuards(JwtAuthGuard, VerifiedGuard, ModGuard)
     @Patch(':id')
     async updateRoom(

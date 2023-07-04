@@ -17,7 +17,6 @@ export class MembershipGuard implements CanActivate {
         if(!member) {
             throw new ForbiddenException(`You aren't member of this room`)
         }
-
         return member
     }
 }

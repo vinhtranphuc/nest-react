@@ -9,8 +9,8 @@ import { User } from "common/entities";
 import { Invitation, Room } from "modules/v1/room/entities";
 import { Message } from "modules/v1/message/message.entity";
 import { Conversation } from "modules/v1/conversation/conversation.entity";
-import { Category, Post, Tag } from "modules/v1/post/entities";
-import { Comment } from "modules/v1/post/entities/comment.entity";
+import { Category, Post, Tag } from "modules/v1/blog/entities";
+import { Comment } from "modules/v1/blog/entities/comment.entity";
 @Global()
 @Injectable()
 export class DefaultTypeOrmConfigService implements TypeOrmOptionsFactory {

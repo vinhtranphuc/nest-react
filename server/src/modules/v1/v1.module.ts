@@ -6,7 +6,7 @@ import { MessageModule } from './message/message.module';
 import { RoomModule } from './room/room.module';
 import { UserModule } from './user/user.module';
 import { FilesModule } from './common/files/files.module';
-import { PostModule } from './post/post.module';
+import { BlogModule } from './blog/blog.module';
 
 @Module({
     imports: [
@@ -16,7 +16,7 @@ import { PostModule } from './post/post.module';
         ChatModule,
         MessageModule,
         RoomModule,
-        PostModule,
+        BlogModule,
         ConversationModule
     ]
 })
