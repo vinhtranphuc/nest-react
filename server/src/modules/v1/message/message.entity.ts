@@ -9,30 +9,12 @@ import { Conversation } from '../conversation/conversation.entity'
 export class Message extends AbstractEntity<Message> {
 
     @ManyToOne(() => Room, room => room.messages, { onDelete: 'CASCADE', nullable: true })
-    @JoinTable({
-        name: "room",
-        joinColumn: {
-            name: "room_id",
-            referencedColumnName: "id"
-        }
-    })
+    @JoinColumn({name: "room_id" })
     public room: Room
 
     @ManyToOne(() => Conversation, conversation => conversation.messages, { onDelete: 'CASCADE', nullable: true })
-    @JoinTable({
-        name: "conversation",
-        joinColumn: {
-            name: "conversation_id",
-            referencedColumnName: "id"
-        }
-    })
+    @JoinColumn({name: "conversation_id" })
     public conversation: Conversation
-
-    // @Column({
-    //     name: 'author_id',
-    //     nullable: true 
-    // })
-    // public authorId: string
 
     @ManyToOne(() => User, user => user.messages, { onDelete: 'CASCADE', nullable: true })
     @JoinColumn({ name: 'author_id' })

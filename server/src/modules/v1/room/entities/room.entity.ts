@@ -27,7 +27,7 @@ export class Room extends AbstractEntity<Room> {
 
     @ManyToMany(() => User)
     @JoinTable({
-        name: "room_users",
+        name: "rooms_users",
         joinColumn: {
             name: "room_id",
             referencedColumnName: "id"
@@ -41,7 +41,7 @@ export class Room extends AbstractEntity<Room> {
 
     @ManyToMany(() => User)
     @JoinTable({
-        name: "room_mods",
+        name: "rooms_mods",
         joinColumn: {
             name: "room_id",
             referencedColumnName: "id"

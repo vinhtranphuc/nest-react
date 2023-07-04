@@ -1,6 +1,4 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne, OneToOne } from 'typeorm'
-
-
 import { AbstractEntity, User } from '../../../../common/entities'
 import { Room } from './room.entity';
 
@@ -39,5 +37,4 @@ export class Invitation extends AbstractEntity<Invitation> {
         nullable: true
     })
     public expiresAt: Date
-
 }

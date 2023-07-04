@@ -9,7 +9,8 @@ import { User } from "common/entities";
 import { Invitation, Room } from "modules/v1/room/entities";
 import { Message } from "modules/v1/message/message.entity";
 import { Conversation } from "modules/v1/conversation/conversation.entity";
-
+import { Category, Post, Tag } from "modules/v1/post/entities";
+import { Comment } from "modules/v1/post/entities/comment.entity";
 @Global()
 @Injectable()
 export class DefaultTypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -17,7 +18,7 @@ export class DefaultTypeOrmConfigService implements TypeOrmOptionsFactory {
 
   static connectionName: TypeOrmConnectionName =
     TYPEORM_CONNECTION_NAMES.DEFAULT;
-  
+
   createTypeOrmOptions(): TypeOrmModuleOptions {
     
     return {
@@ -34,7 +35,17 @@ export class DefaultTypeOrmConfigService implements TypeOrmOptionsFactory {
       password: this.configService.get("DB_PASSWORD"),
       database: this.configService.get("DB_DATABASE"),
       // entities: [__dirname + "../../../../entities/*{.ts,.js}"],
-      entities: [User, Room, Invitation, Message, Conversation],
+      entities: [
+        User,
+        Room,
+        Invitation,
+        Message,
+        Conversation,
+        Category,
+        Post,
+        Comment,
+        Tag
+      ],
     };
   }
 }
