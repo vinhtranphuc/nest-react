@@ -40,13 +40,9 @@ export class AuthService {
                 provider: Providers.Local,
                 ...registrationData
             })
-
             await this.sendConfirmationToken(user)
-
             const [accessToken, refreshToken] = await this.generateTokens(user)
-
             await this.setTokens(req, { accessToken, refreshToken })
-
             return {
                 user,
                 accessToken
@@ -68,12 +64,9 @@ export class AuthService {
     public async login(credentials: LoginDto, req: Request) {
         try {
             const { email, password } = credentials
-
             const user = await this.getAuthenticatedUser(email, password)
             const [accessToken, refreshToken] = await this.generateTokens(user)
-
             await this.setTokens(req, { accessToken, refreshToken })
-
             return {
                 user,
                 accessToken
@@ -98,7 +91,6 @@ export class AuthService {
     private async generateTokens(user: User) {
 
         const jwtid = nanoid()
-
         const accessToken = await this.jwtService.signAsync({ 
             displayName: user.displayName,
             id: user.id
@@ -119,7 +111,6 @@ export class AuthService {
         })
 
         await this.redisService.getClient().set(`refresh-token:${user.id}:${jwtid}`, user.id, 'EX', 60 * 60 * 24 * 30)
-
         return [
             accessToken, refreshToken
         ]
@@ -132,7 +123,6 @@ export class AuthService {
             httpOnly: true, 
             sameSite: 'lax'
         })
-
         if(refreshToken) {
             req.res.cookie('refresh_token', 
                 refreshToken, {
@@ -154,11 +144,9 @@ export class AuthService {
             if(!user) {
                 throw new InvalidCredentials()
             }
-
             if(user.provider !== Providers.Local) {
                 throw new SocialProvider()
             }
-
             const isMatch = await argon2.verify(user.password, password)
             if(!isMatch) {
                 throw new InvalidCredentials()
@@ -184,7 +172,6 @@ export class AuthService {
     
             // req.res.redirect('/api/v1/auth/me')
             req.res.redirect(`${process.env.ORIGIN}/me`)
-    
             return {
                 user,
                 accessToken
@@ -196,17 +183,13 @@ export class AuthService {
 
     private async sendConfirmationToken(user: User) {
         const token = nanoid()
-
         await this.redisService.getClient().set(`confirm-account:${token}`, user.id, 'EX', 60 * 60 * 1) // 1 hour until expires
-
         await this.mailQueue.add('confirm', { user, token })
     }
 
     private async sendResetToken(user: User) {
         const token = nanoid()
-
         await this.redisService.getClient().set(`reset-password:${token}`, user.id, 'EX', 60 * 60 * 1) // 1 hour until expires
-
         await this.mailQueue.add('reset', { user, token })
     }
 
@@ -220,7 +203,6 @@ export class AuthService {
                     message: "Account already verified"
                 }
             }
-            
             return {
                 success: false,
                 message: "Confirmation token expired"
@@ -308,7 +290,6 @@ export class AuthService {
 
     public async refreshTokens(req: Request) {
         const refreshTokenCookie = req.cookies['refresh_token']
-
         if(!refreshTokenCookie) {
             throw new UnauthorizedException('Invalid cookie')
         }
@@ -316,13 +297,11 @@ export class AuthService {
         const verifiedJWt = await this.jwtService.verifyAsync(refreshTokenCookie, {
             secret: this.configService.get('JWT_REFRESH_SECRET_KEY')
         })
-
         if(!verifiedJWt) {
             throw new UnauthorizedException('Invalid refresh token')
         }
 
         const refreshTokenRedis = await this.redisService.getClient().get(`refresh-token:${verifiedJWt.id}:${verifiedJWt.jti}`)
-
         if(!refreshTokenRedis) {
             throw new UnauthorizedException('Refresh token not found')
         }
@@ -345,11 +324,9 @@ export class AuthService {
         const verifiedJWt = await this.jwtService.verifyAsync(token, {
             secret: this.configService.get('JWT_ACCESS_SECRET_KEY')
         })
-
         if(!verifiedJWt) {
             return undefined
         }
-
         return this.userService.getUserByField('id', verifiedJWt.id)
     }
 
