@@ -34,7 +34,7 @@ export class CreateAccountDto {
 
     @ApiProperty({
         required: true,
-        example: 'John',
+        example: 'Tran',
     })
     @IsNotEmpty({
         message: 'First name cannot be empty or whitespace'
@@ -47,7 +47,7 @@ export class CreateAccountDto {
 
     @ApiProperty({
         required: true,
-        example: 'Doe',
+        example: 'Vinh',
     })
     @IsNotEmpty({
         message: 'Last name cannot be empty or whitespace'
@@ -59,7 +59,7 @@ export class CreateAccountDto {
 
     @ApiProperty({
         required: true,
-        example: 'JohnDoe2137',
+        example: 'TranVinh2212',
     })
     @IsNotEmpty({
         message: 'Display name cannot be empty or whitespace'

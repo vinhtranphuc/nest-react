@@ -30,7 +30,7 @@ export class CategoryController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Patch(':id')
+    @Put(':id')
     async updateCategory(
         @Param('id', new ParseUUIDPipe()) id: string,
         @Body() data: CategoryDto
@@ -38,11 +38,11 @@ export class CategoryController {
         return this.categoryService.updateCategory(id, data)
     }
 
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Delete(':id')
     async deleteCategory(
         @Param('id', new ParseUUIDPipe()) id: string
     ) {
-        return this.categoryService.deleteCategory(id)
+       return this.categoryService.deleteCategory(id)
     }
 }

@@ -12,7 +12,6 @@ import { AddRemoveUserDto } from './dto/add-remove-user.dto';
 import { MembershipGuard } from './guards/MembershipGuard';
 import { Throttle } from '@nestjs/throttler'
 
-
 @ApiTags('v1/room')
 @Controller({
     path: 'room',
